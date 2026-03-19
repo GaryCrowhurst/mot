@@ -452,6 +452,65 @@
   }
   .iframe-viewer { flex: 1; border: 0; width: 100%; padding: 18px; overflow: auto; }
 
+.revision-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  margin-top: 18px;
+}
+.revision-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+.revision-body {
+  font-size: 13.5px;
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+.revision-checklist {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.rev-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.rev-group-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+.rev-group label {
+  font-size: 12px;
+  color: #ddd;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.3;
+}
+.rev-group input {
+  margin-top: 3px;
+}
+.revision-note {
+  font-size: 12px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+
+
   @media (max-width: 640px) {
     .iframe-header { flex-direction: column; align-items: flex-start; gap: 8px; }
   }
@@ -1140,6 +1199,58 @@
           <p style="font-size:13.5px; color:var(--muted);">Quiz score: <span style="color:var(--accent); font-family:var(--font-mono);" id="scoreDisplay">0 / 10</span></p>
         </div>
 
+        <div class="revision-box">
+          <div class="revision-title">Revision activity — 7290‑105 Assessor Observation Recording Form</div>
+          <div class="revision-body">Use this as a rehearsal checklist for the practical assignment you will complete in the workshop. Tick each item as you revise it.</div>
+
+          <div class="revision-checklist">
+            <div class="rev-group">
+              <div class="rev-group-title">Inspection activity</div>
+              <label><input type="checkbox" data-store-key="rev-inspection" /> Completed inspection correctly and to manufacturer specification</label>
+            </div>
+
+            <div class="rev-group">
+              <div class="rev-group-title">Tools &amp; equipment</div>
+              <label><input type="checkbox" data-store-key="rev-tools" /> Used hand tools correctly</label>
+              <label><input type="checkbox" data-store-key="rev-lift" /> Used vehicle lift correctly</label>
+              <label><input type="checkbox" data-store-key="rev-brake-test" /> Used brake test equipment (roller/decelerometer) correctly</label>
+              <label><input type="checkbox" data-store-key="rev-tools-headlamp" /> Used headlamp alignment equipment correctly</label>
+              <label><input type="checkbox" data-store-key="rev-exhaust" /> Used exhaust gas test equipment correctly</label>
+            </div>
+
+            <div class="rev-group">
+              <div class="rev-group-title">Technical information</div>
+              <label><input type="checkbox" data-store-key="rev-co" /> Used recommended CO% values</label>
+              <label><input type="checkbox" data-store-key="rev-hc" /> Used recommended HC values</label>
+              <label><input type="checkbox" data-store-key="rev-info-headlamp" /> Used headlamp alignment details</label>
+              <label><input type="checkbox" data-store-key="rev-tyres" /> Used legal tyre requirements</label>
+              <label><input type="checkbox" data-store-key="rev-brake-req" /> Used brake efficiency legal requirements</label>
+            </div>
+
+            <div class="rev-group">
+              <div class="rev-group-title">Examination &amp; testing methods</div>
+              <label><input type="checkbox" data-store-key="rev-co-reading" /> Took CO readings at the exhaust</label>
+              <label><input type="checkbox" data-store-key="rev-tyre-depth" /> Measured tyre depths correctly</label>
+              <label><input type="checkbox" data-store-key="rev-foot-brake" /> Checked foot brake performance correctly</label>
+              <label><input type="checkbox" data-store-key="rev-hand-brake" /> Checked hand brake performance correctly</label>
+            </div>
+
+            <div class="rev-group">
+              <div class="rev-group-title">Health &amp; Safety / Housekeeping</div>
+              <label><input type="checkbox" data-store-key="rev-team" /> Worked with others when reporting findings</label>
+              <label><input type="checkbox" data-store-key="rev-waste" /> Disposed of waste correctly and safely</label>
+              <label><input type="checkbox" data-store-key="rev-tools-tidy" /> Tidy, clean and put away tools</label>
+              <label><input type="checkbox" data-store-key="rev-work-area" /> Maintained a tidy work area</label>
+              <label><input type="checkbox" data-store-key="rev-spill" /> Cleared up spillages</label>
+              <label><input type="checkbox" data-store-key="rev-policy" /> Identified workshop policies</label>
+              <label><input type="checkbox" data-store-key="rev-ppe" /> Wore and used correct PPE</label>
+              <label><input type="checkbox" data-store-key="rev-recycle" /> Demonstrated recycling / correct waste disposal (ESDGC)</label>
+            </div>
+          </div>
+
+          <div class="revision-note">Tip: Use the checklist to guide your practical session and keep a note of any areas you need to revisit.</div>
+        </div>
+
         <button class="complete-btn" onclick="event.stopPropagation(); markDone(5)">Mark task complete ✓</button>
       </div>
     </div>
@@ -1258,8 +1369,9 @@ function markDone(n){
 
 function updateProgress(){
   const done=Object.values(completed).filter(Boolean).length;
-  document.getElementById('progressFill').style.width=(done/5*100)+'%';
-  document.getElementById('progressText').textContent=done+' of 5 tasks complete';
+  const total = Object.keys(completed).length;
+  document.getElementById('progressFill').style.width=(done/total*100)+'%';
+  document.getElementById('progressText').textContent=done+' of '+total+' tasks complete';
 }
 
 let quizScore=0;
@@ -1273,6 +1385,22 @@ function answer(btn,correct,qid,feedback){
   fb.className='quiz-feedback show '+(correct?'correct-fb':'wrong-fb');
   if(correct){quizScore++;document.getElementById('scoreDisplay').textContent=quizScore+' / 10';}
 }
+
+function initRevisionChecklist(){
+  const inputs=document.querySelectorAll('[data-store-key]');
+  inputs.forEach(input=>{
+    const key='mot-revision-'+input.getAttribute('data-store-key');
+    const stored=localStorage.getItem(key);
+    if(stored!==null){
+      input.checked = stored === '1';
+    }
+    input.addEventListener('change',()=>{
+      localStorage.setItem(key, input.checked ? '1' : '0');
+    });
+  });
+}
+
+initRevisionChecklist();
 </script>
 </body>
 </html>
