@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOT Self-Directed Study Task | Level 2 Light Vehicle</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0f0f0;
+    --muted: #8a8fa8;
+    --accent: #f59e0b;
+    --accent-dim: rgba(245,158,11,0.12);
+    --accent-glow: rgba(245,158,11,0.25);
+    --green: #34d399;
+    --green-dim: rgba(52,211,153,0.1);
+    --blue: #60a5fa;
+    --blue-dim: rgba(96,165,250,0.1);
+    --red: #f87171;
+    --red-dim: rgba(248,113,113,0.1);
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.1);
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.65;
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border2);
+    padding: 32px 40px 28px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .header-left {}
+  .qual-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    border: 1px solid rgba(245,158,11,0.3);
+    padding: 3px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-family: var(--font-head);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .header-sub {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  /* TIMER */
+  .timer-box {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 10px;
+    padding: 20px 28px;
+    text-align: center;
+    min-width: 200px;
+  }
+  .timer-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .timer-display {
+    font-family: var(--font-mono);
+    font-size: 36px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .timer-display.done { color: var(--green); }
+  .timer-controls { display: flex; gap: 8px; justify-content: center; }
+  .btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 7px 16px;
+    border-radius: 5px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+  }
+  .btn:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
+  .btn.primary:hover { background: var(--accent); color: #000; }
+
+  /* PROGRESS BAR */
+  .progress-wrap {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .progress-bar-bg {
+    flex: 1;
+    height: 4px;
+    background: var(--border2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--green));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-text {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* MAIN */
+  .main { max-width: 900px; margin: 0 auto; padding: 36px 40px 0; }
+
+  /* OBJECTIVE BANNER */
+  .objective-card {
+    background: var(--accent-dim);
+    border: 1px solid rgba(245,158,11,0.25);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 32px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .objective-icon {
+    font-size: 22px;
+    line-height: 1;
+    margin-top: 1px;
+    flex-shrink: 0;
+  }
+  .objective-title {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .objective-body { font-size: 14px; color: #d4c890; line-height: 1.6; }
+
+  /* TASKS */
+  .section-head {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .task-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .task-card.completed { border-color: rgba(52,211,153,0.35); }
+  .task-card.active { border-color: rgba(245,158,11,0.4); }
+
+  .task-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 22px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .task-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    min-width: 24px;
+  }
+  .task-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border2);
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .task-dot.done {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .task-dot.done::after {
+    content: '';
+    width: 7px; height: 5px;
+    border-left: 1.5px solid #000;
+    border-bottom: 1.5px solid #000;
+    transform: rotate(-45deg) translate(1px, -1px);
+    display: block;
+  }
+  .task-info { flex: 1; }
+  .task-title {
+    font-family: var(--font-head);
+    font-weight: 600;
+    font-size: 15px;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+  .task-card.completed .task-title { color: var(--muted); text-decoration: line-through; }
+  .task-meta { display: flex; gap: 10px; align-items: center; }
+  .task-time {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+  .task-type {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .expand-icon {
+    font-size: 14px;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+  .task-card.open .expand-icon { transform: rotate(90deg); }
+
+  .task-body {
+    display: none;
+    padding: 0 22px 22px 62px;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+  .task-card.open .task-body { display: block; }
+
+  .task-body-inner { padding-top: 18px; }
+
+  .task-desc {
+    font-size: 14px;
+    color: #ccc;
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+
+  .activity-list { list-style: none; padding: 0; margin: 0 0 16px; }
+  .activity-list li {
+    font-size: 13.5px;
+    color: #bbc;
+    padding: 7px 0 7px 20px;
+    position: relative;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.55;
+  }
+  .activity-list li:last-child { border-bottom: none; }
+  .activity-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 12px;
+  }
+
+  .key-terms {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 14px;
+  }
+  .key-terms-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .term-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .term-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border2);
+    color: var(--blue);
+    background: var(--blue-dim);
+  }
+
+  .defect-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .defect-card {
+    border-radius: 8px;
+    padding: 13px 15px;
+    border: 1px solid;
+  }
+  .defect-card.dangerous { background: var(--red-dim); border-color: rgba(248,113,113,0.3); }
+  .defect-card.major { background: rgba(249,115,22,0.08); border-color: rgba(249,115,22,0.3); }
+  .defect-card.minor { background: rgba(250,204,21,0.07); border-color: rgba(250,204,21,0.3); }
+  .defect-card.advisory { background: var(--green-dim); border-color: rgba(52,211,153,0.25); }
+  .defect-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    font-weight: 500;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .defect-card.dangerous .defect-name { color: var(--red); }
+  .defect-card.major .defect-name { color: #fb923c; }
+  .defect-card.minor .defect-name { color: #fbbf24; }
+  .defect-card.advisory .defect-name { color: var(--green); }
+  .defect-desc { font-size: 12px; color: #aaa; line-height: 1.55; }
+
+  .resource-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .resource-link {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--blue);
+    background: var(--blue-dim);
+    border: 1px solid rgba(96,165,250,0.25);
+    border-radius: 4px;
+    padding: 5px 12px;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .resource-link:hover { background: rgba(96,165,250,0.2); }
+
+  .reflection-box {
+    background: var(--purple-dim);
+    border: 1px solid rgba(167,139,250,0.25);
+    border-radius: 8px;
+    padding: 14px 18px;
+  }
+  .reflection-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--purple);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .reflection-qs { list-style: none; padding: 0; }
+  .reflection-qs li {
+    font-size: 13px;
+    color: #ccc;
+    padding: 5px 0 5px 16px;
+    position: relative;
+  }
+  .reflection-qs li::before {
+    content: '?';
+    position: absolute; left: 0;
+    color: var(--purple);
+    font-family: var(--font-mono);
+    font-size: 11px;
+  }
+
+  .mot-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .mot-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    color: #ccc;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .mot-item:hover { border-color: var(--accent); color: var(--accent); }
+  .mot-item-icon { font-size: 16px; margin-bottom: 4px; display: block; }
+
+  /* SUMMARY ROW */
+  .summary-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 32px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .sum-item { text-align: center; }
+  .sum-val {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .sum-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .sum-divider {
+    width: 1px;
+    background: var(--border);
+    margin: 4px auto;
+  }
+
+  /* SCENARIO */
+  .scenario-box {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+  }
+  .scenario-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .scenario-text { font-size: 13.5px; color: #ccc; line-height: 1.6; }
+
+  /* QUIZ */
+  .quiz-q {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+  }
+  .quiz-q-text { font-size: 13.5px; color: #ddd; margin-bottom: 10px; font-weight: 500; }
+  .quiz-options { display: flex; flex-direction: column; gap: 6px; }
+  .quiz-opt {
+    font-size: 13px;
+    color: #aaa;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: transparent;
+    text-align: left;
+    font-family: var(--font-body);
+  }
+  .quiz-opt:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .quiz-opt.correct { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+  .quiz-opt.wrong { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+  .quiz-feedback {
+    font-size: 12.5px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.correct-fb { background: var(--green-dim); color: var(--green); border: 1px solid rgba(52,211,153,0.3); }
+  .quiz-feedback.wrong-fb { background: var(--red-dim); color: var(--red); border: 1px solid rgba(248,113,113,0.3); }
+
+  .complete-btn {
+    margin-top: 16px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: var(--accent-dim);
+    color: var(--accent);
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .complete-btn:hover { background: var(--accent); color: #000; }
+  .complete-btn:disabled { opacity: 0.4; cursor: default; }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    .header { padding: 24px 20px; }
+    .main { padding: 24px 20px 0; }
+    .progress-wrap { padding: 14px 20px; }
+    .summary-strip { grid-template-columns: repeat(3,1fr); }
+    .defect-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <div class="qual-badge">City &amp; Guilds 7290 · Level 2 · Light Vehicle</div>
+    <h1>MOT Testing &amp; Inspection</h1>
+    <p class="header-sub">Self-Directed Study Task &nbsp;·&nbsp; 2 Hours &nbsp;·&nbsp; Individual Activity</p>
+  </div>
+  <div class="timer-box">
+    <div class="timer-label">Session timer</div>
+    <div class="timer-display" id="timerDisplay">2:00:00</div>
+    <div class="timer-controls">
+      <button class="btn primary" id="timerBtn" onclick="toggleTimer()">Start</button>
+      <button class="btn" onclick="resetTimer()">Reset</button>
+    </div>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <span class="progress-text" id="progressText">0 of 5 tasks complete</span>
+</div>
+
+<div class="main">
+
+  <div class="objective-card">
+    <div class="objective-icon">🎯</div>
+    <div>
+      <div class="objective-title">Learning Objective</div>
+      <div class="objective-body">By the end of this session you will be able to explain the purpose and legal basis of the MOT test, identify the main test items, categorise defects using the current DVSA system, and apply your knowledge to real-world inspection scenarios.</div>
+    </div>
+  </div>
+
+  <div class="summary-strip">
+    <div class="sum-item"><div class="sum-val">2 hrs</div><div class="sum-label">Total time</div></div>
+    <div class="sum-item"><div class="sum-val">5</div><div class="sum-label">Tasks</div></div>
+    <div class="sum-item"><div class="sum-val">4</div><div class="sum-label">Defect categories</div></div>
+    <div class="sum-item"><div class="sum-val">10</div><div class="sum-label">Quiz questions</div></div>
+    <div class="sum-item"><div class="sum-val">Solo</div><div class="sum-label">Activity type</div></div>
+  </div>
+
+  <p class="section-head">Study tasks — click each to expand</p>
+
+  <!-- TASK 1 -->
+  <div class="task-card" id="task1" onclick="toggleTask(1)">
+    <div class="task-header">
+      <span class="task-num">01</span>
+      <div class="task-dot" id="dot1" onclick="event.stopPropagation(); markDone(1)"></div>
+      <div class="task-info">
+        <div class="task-title">The MOT Test — Background &amp; Legal Basis</div>
+        <div class="task-meta">
+          <span class="task-time">20 mins</span>
+          <span class="task-type">Research &amp; note-taking</span>
+        </div>
+      </div>
+      <span class="expand-icon">▶</span>
+    </div>
+    <div class="task-body">
+      <div class="task-body-inner">
+        <p class="task-desc">Start by building your foundational knowledge. Understand what the MOT test is, why it exists, and what legislation backs it up. Use the DVSA resources below and make short notes in your own words.</p>
+        <ul class="activity-list">
+          <li>Read the DVSA overview of the MOT test scheme — note the year it was introduced and why</li>
+          <li>Find out which vehicles require an MOT test and at what age</li>
+          <li>Identify the key piece of legislation that underpins the MOT scheme (hint: Road Traffic Act)</li>
+          <li>Note down what an MOT certificate proves and how long it is valid</li>
+          <li>Make a bullet-point summary (5–8 points) in your own words — no copying</li>
+        </ul>
+        <div class="resource-links">
+          <a class="resource-link" href="https://www.gov.uk/getting-an-mot/overview" target="_blank">GOV.UK MOT overview ↗</a>
+          <a class="resource-link" href="https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles" target="_blank">DVSA Inspection Manual ↗</a>
+          <a class="resource-link" href="https://www.gov.uk/check-mot-history" target="_blank">Check MOT history tool ↗</a>
+        </div>
+        <div class="key-terms">
+          <div class="key-terms-title">Key terms to define</div>
+          <div class="term-grid">
+            <span class="term-tag">MOT</span>
+            <span class="term-tag">DVSA</span>
+            <span class="term-tag">Authorised Examiner</span>
+            <span class="term-tag">VT20</span>
+            <span class="term-tag">VT30</span>
+            <span class="term-tag">Type Approval</span>
+          </div>
+        </div>
+        <div class="reflection-box">
+          <div class="reflection-title">Reflection prompts</div>
+          <ul class="reflection-qs">
+            <li>Why might a vehicle that looks fine visually still fail an MOT?</li>
+            <li>What would happen if the MOT scheme didn't exist?</li>
+          </ul>
+        </div>
+        <button class="complete-btn" onclick="event.stopPropagation(); markDone(1)">Mark task complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASK 2 -->
+  <div class="task-card" id="task2" onclick="toggleTask(2)">
+    <div class="task-header">
+      <span class="task-num">02</span>
+      <div class="task-dot" id="dot2" onclick="event.stopPropagation(); markDone(2)"></div>
+      <div class="task-info">
+        <div class="task-title">What Gets Tested — MOT Inspection Items</div>
+        <div class="task-meta">
+          <span class="task-time">30 mins</span>
+          <span class="task-type">Study &amp; diagram</span>
+        </div>
+      </div>
+      <span class="expand-icon">▶</span>
+    </div>
+    <div class="task-body">
+      <div class="task-body-inner">
+        <p class="task-desc">The MOT test covers a wide range of vehicle systems. Your task is to learn the main categories of items inspected and understand what testers are looking for in each area. Click any item below to look it up.</p>
+        <div class="mot-items-grid">
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🛑</span>Brakes</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">💡</span>Lights &amp; signals</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🔄</span>Steering</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">⚙️</span>Suspension</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🔵</span>Tyres &amp; wheels</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🌫️</span>Emissions</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🪟</span>Visibility</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🚗</span>Body &amp; structure</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🔐</span>Seatbelts</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🔊</span>Horn</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🔧</span>Fuel system</div>
+          <div class="mot-item" onclick="window.open('https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles','_blank')"><span class="mot-item-icon">🆔</span>VIN &amp; registration</div>
+        </div>
+        <ul class="activity-list">
+          <li>Using the DVSA Inspection Manual, pick <strong>three</strong> items from the grid above and write 3–4 sentences on what the tester checks and what would cause a failure in each</li>
+          <li>Draw a simple diagram of a car and label at least 8 MOT check points — use your notes or the manual</li>
+          <li>Find out what the minimum legal tread depth is for tyres and note how a tester measures this</li>
+          <li>Research the emissions limits for a petrol car — note the difference between pre-2003 and post-2003 vehicles</li>
+        </ul>
+        <div class="key-terms">
+          <div class="key-terms-title">Key terms to define</div>
+          <div class="term-grid">
+            <span class="term-tag">Tread depth</span>
+            <span class="term-tag">Brake efficiency</span>
+            <span class="term-tag">Lambda value</span>
+            <span class="term-tag">Free play</span>
+            <span class="term-tag">Corrosion</span>
+            <span class="term-tag">Play (steering)</span>
+          </div>
+        </div>
+        <button class="complete-btn" onclick="event.stopPropagation(); markDone(2)">Mark task complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASK 3 -->
+  <div class="task-card" id="task3" onclick="toggleTask(3)">
+    <div class="task-header">
+      <span class="task-num">03</span>
+      <div class="task-dot" id="dot3" onclick="event.stopPropagation(); markDone(3)"></div>
+      <div class="task-info">
+        <div class="task-title">Defect Categories — The 2018 Classification System</div>
+        <div class="task-meta">
+          <span class="task-time">25 mins</span>
+          <span class="task-type">Deep dive study</span>
+        </div>
+      </div>
+      <span class="expand-icon">▶</span>
+    </div>
+    <div class="task-body">
+      <div class="task-body-inner">
+        <p class="task-desc">In May 2018 the defect classification system changed significantly. You must understand all four categories and be able to decide which applies to a given fault. Study the grid below then complete the activities.</p>
+        <div class="defect-grid">
+          <div class="defect-card dangerous">
+            <div class="defect-name">Dangerous</div>
+            <div class="defect-desc">Direct and immediate risk to road safety or the environment. Vehicle must NOT be driven. Fail result — also a legal offence to drive.</div>
+          </div>
+          <div class="defect-card major">
+            <div class="defect-name">Major</div>
+            <div class="defect-desc">Likely to affect vehicle safety, have an impact on the environment, or put other road users at risk. Automatic fail — must be repaired before driving.</div>
+          </div>
+          <div class="defect-card minor">
+            <div class="defect-name">Minor</div>
+            <div class="defect-desc">No significant effect on safety or the environment, but should be repaired as soon as possible. Vehicle still passes but defect is recorded.</div>
+          </div>
+          <div class="defect-card advisory">
+            <div class="defect-name">Advisory</div>
+            <div class="defect-desc">Not currently a defect but could become one. Tester recommends monitoring — owner should get it checked. Does not affect result.</div>
+          </div>
+        </div>
+        <ul class="activity-list">
+          <li>For each defect category, write one example of a brake-related fault that would fall into that category (so four examples total)</li>
+          <li>Find out what changed between the old Pass/Fail/Advisory system and the current four-category system — why was the change made?</li>
+          <li>What does a Dangerous defect mean for the vehicle owner legally? Can they drive home?</li>
+          <li>Create a simple reference card (one side of A5) summarising all four categories with examples — something you could revise from</li>
+        </ul>
+        <div class="resource-links">
+          <a class="resource-link" href="https://www.gov.uk/guidance/mot-defect-categories" target="_blank">DVSA defect categories ↗</a>
+        </div>
+        <div class="reflection-box">
+          <div class="reflection-title">Think about it</div>
+          <ul class="reflection-qs">
+            <li>A customer says "it only got a Minor, so it's fine to drive for another year" — how would you respond?</li>
+            <li>Why might a Dangerous defect discovered during an MOT be treated differently than one found during a service?</li>
+          </ul>
+        </div>
+        <button class="complete-btn" onclick="event.stopPropagation(); markDone(3)">Mark task complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASK 4 -->
+  <div class="task-card" id="task4" onclick="toggleTask(4)">
+    <div class="task-header">
+      <span class="task-num">04</span>
+      <div class="task-dot" id="dot4" onclick="event.stopPropagation(); markDone(4)"></div>
+      <div class="task-info">
+        <div class="task-title">Applied Scenarios — Classify the Defect</div>
+        <div class="task-meta">
+          <span class="task-time">25 mins</span>
+          <span class="task-type">Applied learning</span>
+        </div>
+      </div>
+      <span class="expand-icon">▶</span>
+    </div>
+    <div class="task-body">
+      <div class="task-body-inner">
+        <p class="task-desc">Read each scenario below. Decide which defect category applies (Dangerous / Major / Minor / Advisory) and write a brief justification. Use the DVSA manual to check your answers.</p>
+
+        <div class="scenario-box">
+          <div class="scenario-label">Scenario A</div>
+          <div class="scenario-text">During an MOT inspection of a 2018 Ford Focus, the nearside front tyre has a tread depth of 1.0mm across the central three-quarters of the tread. The tyre has no cuts or bulges. What category would this defect be and why?</div>
+        </div>
+
+        <div class="scenario-box">
+          <div class="scenario-label">Scenario B</div>
+          <div class="scenario-text">A 2015 VW Golf comes in for its MOT. The offside front brake pad is worn to approximately 3mm of friction material. The nearside is fine. Both discs are within tolerance. The vehicle has no braking imbalance. How would you record this?</div>
+        </div>
+
+        <div class="scenario-box">
+          <div class="scenario-label">Scenario C</div>
+          <div class="scenario-text">A 2010 Renault Clio is on the ramp. The tester observes that the subframe has significant corrosion directly to a steering component mounting point, with visible perforations. The component moves when force is applied. What is the outcome?</div>
+        </div>
+
+        <div class="scenario-box">
+          <div class="scenario-label">Scenario D</div>
+          <div class="scenario-text">A 2019 Toyota Yaris is presented for its first MOT. One of the rear number plate bulbs has failed — the registration plate is still fully illuminated by the remaining bulb. What would you record?</div>
+        </div>
+
+        <ul class="activity-list">
+          <li>Write your classification and justification for each scenario — use the DVSA manual to support your reasoning</li>
+          <li>For any Fail scenarios, explain what the customer would need to do to get a pass</li>
+          <li>Discuss with a fellow learner if possible — do you agree on all four? Where might reasonable testers differ?</li>
+        </ul>
+        <button class="complete-btn" onclick="event.stopPropagation(); markDone(4)">Mark task complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TASK 5 -->
+  <div class="task-card" id="task5" onclick="toggleTask(5)">
+    <div class="task-header">
+      <span class="task-num">05</span>
+      <div class="task-dot" id="dot5" onclick="event.stopPropagation(); markDone(5)"></div>
+      <div class="task-info">
+        <div class="task-title">Self-Assessment Quiz &amp; Session Review</div>
+        <div class="task-meta">
+          <span class="task-time">20 mins</span>
+          <span class="task-type">Self-assessment</span>
+        </div>
+      </div>
+      <span class="expand-icon">▶</span>
+    </div>
+    <div class="task-body">
+      <div class="task-body-inner">
+        <p class="task-desc">Test your knowledge from the session. Answer each question, then review anything you got wrong using your notes or the DVSA manual.</p>
+
+        <!-- Q1 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">1. From what age does a private car first require an MOT test?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q1','3 years is correct — a car first needs an MOT when it turns 3 years old.')">2 years</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q1','Correct! Cars require their first MOT when they are 3 years old.')">3 years</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q1','4 years is incorrect — the MOT is required from 3 years old.')">4 years</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q1','5 years is incorrect — the MOT is required from 3 years old.')">5 years</button>
+          </div>
+          <div class="quiz-feedback" id="q1"></div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">2. What is the minimum legal tread depth for car tyres across the central three-quarters of the tread?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q2','1mm is not the legal minimum — this would be a fail.')">1.0mm</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q2','2mm is often cited as a recommended minimum, but the legal limit is 1.6mm.')">2.0mm</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q2','Correct! 1.6mm is the legal minimum tread depth across the central three-quarters of the tread.')">1.6mm</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q2','3mm is not the legal minimum — though it is sometimes advised as a safe working limit.')">3.0mm</button>
+          </div>
+          <div class="quiz-feedback" id="q2"></div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">3. A vehicle with a Dangerous defect recorded on its MOT — what can the owner legally do?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q3','Driving home carefully is still illegal with a Dangerous defect — the vehicle must not be driven.')">Drive home carefully</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q3','Correct! The vehicle must not be driven. It must be transported (e.g. on a transporter) for repair.')">Not drive it — must be transported</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q3','Driving with a valid insurance certificate does not override a Dangerous MOT defect.')">Drive if they have valid insurance</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q3','Signing a disclaimer does not permit driving a vehicle with a Dangerous defect.')">Drive if they sign a disclaimer</button>
+          </div>
+          <div class="quiz-feedback" id="q3"></div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">4. Which category describes a defect that does NOT cause a fail but should be monitored?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q4','Minor is a pass result but it still means a defect was found that should be repaired.')">Minor</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q4','Major always results in a fail.')">Major</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q4','Correct! Advisory items are not defects — they are noted for the owner\'s awareness and should be monitored.')">Advisory</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q4','Dangerous results in an immediate fail and the vehicle cannot be driven.')">Dangerous</button>
+          </div>
+          <div class="quiz-feedback" id="q4"></div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">5. The document issued when a vehicle FAILS its MOT is known as a:</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q5','VT20 is the pass certificate.')">VT20</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q5','Correct! A VT30 is the refusal of an MOT test certificate — issued when a vehicle fails.')">VT30</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q5','V5C is the vehicle registration certificate (logbook).')">V5C</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q5','VT32 relates to MOT appeals, not the standard fail document.')">VT32</button>
+          </div>
+          <div class="quiz-feedback" id="q5"></div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">6. In what year did the current four-category defect classification system come into force?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q6','2015 is not correct — the system changed in 2018.')">2015</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q6','2016 is not correct — the system changed in May 2018.')">2016</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q6','Correct! The four-category system (Dangerous, Major, Minor, Advisory) came into force in May 2018.')">2018</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q6','2020 is not correct — the system was introduced in 2018.')">2020</button>
+          </div>
+          <div class="quiz-feedback" id="q6"></div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">7. Which body is responsible for setting MOT standards and overseeing the scheme in Great Britain?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q7','The DVLA handles licensing and registration, not MOT standards.')">DVLA</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q7','Correct! The DVSA (Driver and Vehicle Standards Agency) sets and oversees MOT standards.')">DVSA</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q7','The DfT (Department for Transport) sets overall transport policy, but DVSA administers the MOT scheme.')">DfT</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q7','Trading Standards enforce consumer law but do not set MOT standards.')">Trading Standards</button>
+          </div>
+          <div class="quiz-feedback" id="q7"></div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">8. A car has a cracked windscreen directly in the driver's eyeline (zone A). What defect category would this likely be?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q8','Advisory would not apply — this is a safety-affecting defect.')">Advisory</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q8','Minor would not apply — this directly affects driver visibility.')">Minor</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q8','Major is possible for some windscreen damage, but a crack in zone A is classed as Dangerous.')">Major</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q8','Correct! A crack in zone A (the swept area directly in front of the driver) is a Dangerous defect.')">Dangerous</button>
+          </div>
+          <div class="quiz-feedback" id="q8"></div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">9. How long is a standard MOT certificate valid for?</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q9','6 months is not correct — a standard MOT lasts 12 months.')">6 months</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q9','Correct! A standard MOT certificate is valid for 12 months.')">12 months</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q9','18 months is not correct for a standard MOT.')">18 months</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q9','2 years is not correct for a standard MOT.')">2 years</button>
+          </div>
+          <div class="quiz-feedback" id="q9"></div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="quiz-q">
+          <div class="quiz-q-text">10. A Minor defect on an MOT result means the vehicle:</div>
+          <div class="quiz-options">
+            <button class="quiz-opt" onclick="answer(this,false,'q10','A vehicle with only Minor defects passes its MOT.')">Has failed its MOT</button>
+            <button class="quiz-opt" onclick="answer(this,true,'q10','Correct! Minor defects result in a pass, but the defect is recorded and should be repaired as soon as possible.')">Has passed but the defect should be repaired soon</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q10','Minor defects are recorded — they do not disappear from the record.')">Has passed and no action is needed</button>
+            <button class="quiz-opt" onclick="answer(this,false,'q10','The tester cannot waive Minor defects — they are always recorded.')">Can be passed if tester uses discretion</button>
+          </div>
+          <div class="quiz-feedback" id="q10"></div>
+        </div>
+
+        <div style="margin-top:20px; padding:16px 18px; background: var(--surface2); border:1px solid var(--border); border-radius:8px;">
+          <div style="font-family: var(--font-mono); font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Session review</div>
+          <p style="font-size:13.5px; color:#ccc; line-height:1.65; margin-bottom:10px;">Once you've completed the quiz, spend 5 minutes reviewing your notes from tasks 1–4. Identify anything you were unsure about and flag it for your next session or tutor discussion. Write 2–3 sentences summarising what you learned today.</p>
+          <p style="font-size:13.5px; color:var(--muted);">Quiz score: <span style="color:var(--accent); font-family:var(--font-mono);" id="scoreDisplay">0 / 10</span></p>
+        </div>
+
+        <button class="complete-btn" onclick="event.stopPropagation(); markDone(5)">Mark task complete ✓</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+let timerInterval = null;
+let seconds = 7200;
+let running = false;
+const completed = {1:false,2:false,3:false,4:false,5:false};
+const openTasks = {};
+let quizAnswers = 0;
+
+function pad(n){return n<10?'0'+n:n;}
+function updateTimerDisplay(){
+  const h=Math.floor(seconds/3600);
+  const m=Math.floor((seconds%3600)/60);
+  const s=seconds%60;
+  const el=document.getElementById('timerDisplay');
+  el.textContent=h+':'+pad(m)+':'+pad(s);
+  el.className='timer-display'+(seconds===0?' done':'');
+}
+function toggleTimer(){
+  const btn=document.getElementById('timerBtn');
+  if(!running){
+    running=true; btn.textContent='Pause'; btn.className='btn';
+    timerInterval=setInterval(()=>{
+      if(seconds>0){seconds--;updateTimerDisplay();}
+      else{clearInterval(timerInterval);running=false;btn.textContent='Done';btn.className='btn primary';}
+    },1000);
+  } else {
+    running=false;clearInterval(timerInterval);btn.textContent='Resume';btn.className='btn primary';
+  }
+}
+function resetTimer(){
+  clearInterval(timerInterval);running=false;seconds=7200;
+  updateTimerDisplay();
+  document.getElementById('timerBtn').textContent='Start';
+  document.getElementById('timerBtn').className='btn primary';
+}
+
+function toggleTask(n){
+  const card=document.getElementById('task'+n);
+  const isOpen=card.classList.contains('open');
+  card.classList.toggle('open',!isOpen);
+}
+
+function markDone(n){
+  completed[n]=true;
+  const dot=document.getElementById('dot'+n);
+  dot.classList.add('done');
+  const card=document.getElementById('task'+n);
+  card.classList.add('completed');
+  card.classList.remove('active');
+  updateProgress();
+}
+
+function updateProgress(){
+  const done=Object.values(completed).filter(Boolean).length;
+  document.getElementById('progressFill').style.width=(done/5*100)+'%';
+  document.getElementById('progressText').textContent=done+' of 5 tasks complete';
+}
+
+let quizScore=0;
+function answer(btn,correct,qid,feedback){
+  const container=btn.closest('.quiz-q');
+  const opts=container.querySelectorAll('.quiz-opt');
+  opts.forEach(o=>o.disabled=true);
+  btn.className='quiz-opt '+(correct?'correct':'wrong');
+  const fb=document.getElementById(qid);
+  fb.textContent=feedback;
+  fb.className='quiz-feedback show '+(correct?'correct-fb':'wrong-fb');
+  if(correct){quizScore++;document.getElementById('scoreDisplay').textContent=quizScore+' / 10';}
+}
+</script>
+</body>
+</html>
