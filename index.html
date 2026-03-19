@@ -442,6 +442,14 @@
     color: var(--text);
   }
   .iframe-actions { display: flex; gap: 8px; }
+  .iframe-notice {
+    padding: 10px 16px;
+    background: rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+  }
   .iframe-viewer { flex: 1; border: 0; width: 100%; }
 
   @media (max-width: 640px) {
@@ -605,8 +613,8 @@
   <p class="section-head">Study tasks — click each to expand</p>
 
   <!-- TASK 1 -->
-  <div class="task-card" id="task1" onclick="toggleTask(1)">
-    <div class="task-header">
+  <div class="task-card" id="task1">
+    <div class="task-header" onclick="toggleTask(1)">
       <span class="task-num">01</span>
       <div class="task-dot" id="dot1" onclick="event.stopPropagation(); markDone(1)"></div>
       <div class="task-info">
@@ -656,8 +664,8 @@
   </div>
 
   <!-- TASK 2 -->
-  <div class="task-card" id="task2" onclick="toggleTask(2)">
-    <div class="task-header">
+  <div class="task-card" id="task2">
+    <div class="task-header" onclick="toggleTask(2)">
       <span class="task-num">02</span>
       <div class="task-dot" id="dot2" onclick="event.stopPropagation(); markDone(2)"></div>
       <div class="task-info">
@@ -888,8 +896,8 @@
   </div>
 
   <!-- TASK 3 -->
-  <div class="task-card" id="task3" onclick="toggleTask(3)">
-    <div class="task-header">
+  <div class="task-card" id="task3">
+    <div class="task-header" onclick="toggleTask(3)">
       <span class="task-num">03</span>
       <div class="task-dot" id="dot3" onclick="event.stopPropagation(); markDone(3)"></div>
       <div class="task-info">
@@ -943,8 +951,8 @@
   </div>
 
   <!-- TASK 4 -->
-  <div class="task-card" id="task4" onclick="toggleTask(4)">
-    <div class="task-header">
+  <div class="task-card" id="task4">
+    <div class="task-header" onclick="toggleTask(4)">
       <span class="task-num">04</span>
       <div class="task-dot" id="dot4" onclick="event.stopPropagation(); markDone(4)"></div>
       <div class="task-info">
@@ -990,8 +998,8 @@
   </div>
 
   <!-- TASK 5 -->
-  <div class="task-card" id="task5" onclick="toggleTask(5)">
-    <div class="task-header">
+  <div class="task-card" id="task5">
+    <div class="task-header" onclick="toggleTask(5)">
       <span class="task-num">05</span>
       <div class="task-dot" id="dot5" onclick="event.stopPropagation(); markDone(5)"></div>
       <div class="task-info">
@@ -1147,6 +1155,9 @@
       <button class="btn" onclick="closeIframe()">Close</button>
     </div>
   </div>
+  <div id="iframeNotice" class="iframe-notice" hidden>
+    Some websites (e.g., Gov.uk) block embedding in iframes. If the content does not appear, click “Open in new tab.”
+  </div>
   <iframe id="iframeViewer" class="iframe-viewer" src="about:blank"></iframe>
 </div>
 
@@ -1161,6 +1172,14 @@ function openIframe(url,title){
   document.getElementById('iframeTitle').textContent = title || 'Reference';
   document.getElementById('iframeViewer').src = url;
   document.getElementById('iframeOverlay').hidden = false;
+
+  const notice = document.getElementById('iframeNotice');
+  // Some sites (e.g. gov.uk) prevent iframe embedding; show a note so learners know to open in a new tab.
+  if (url.includes('gov.uk')) {
+    notice.hidden = false;
+  } else {
+    notice.hidden = true;
+  }
 }
 
 function closeIframe(){
