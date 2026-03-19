@@ -80,50 +80,6 @@
     font-size: 14px;
   }
 
-  /* TIMER */
-  .timer-box {
-    background: var(--surface2);
-    border: 1px solid var(--border2);
-    border-radius: 10px;
-    padding: 20px 28px;
-    text-align: center;
-    min-width: 200px;
-  }
-  .timer-label {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .timer-display {
-    font-family: var(--font-mono);
-    font-size: 36px;
-    font-weight: 500;
-    color: var(--accent);
-    letter-spacing: 0.04em;
-    line-height: 1;
-    margin-bottom: 14px;
-  }
-  .timer-display.done { color: var(--green); }
-  .timer-controls { display: flex; gap: 8px; justify-content: center; }
-  .btn {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    padding: 7px 16px;
-    border-radius: 5px;
-    border: 1px solid var(--border2);
-    background: transparent;
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.15s;
-    text-transform: uppercase;
-  }
-  .btn:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
-  .btn.primary { background: var(--accent-dim); border-color: var(--accent); color: var(--accent); }
-  .btn.primary:hover { background: var(--accent); color: #000; }
 
   /* PROGRESS BAR */
   .progress-wrap {
@@ -544,9 +500,16 @@
   @media (max-width: 640px) {
     .header { padding: 24px 20px; }
     .main { padding: 24px 20px 0; }
-    .progress-wrap { padding: 14px 20px; }
-    .summary-strip { grid-template-columns: repeat(3,1fr); }
+    .progress-wrap { padding: 14px 20px; flex-wrap: wrap; }
+    .progress-text { white-space: normal; width: 100%; text-align: center; margin-top: 8px; }
+    .summary-strip { grid-template-columns: repeat(2,1fr); }
     .defect-grid { grid-template-columns: 1fr; }
+    .task-header { padding: 16px 18px; }
+    .task-body { padding: 0 18px 22px 18px; }
+  }
+
+  @media (max-width: 420px) {
+    .summary-strip { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -556,15 +519,7 @@
   <div class="header-left">
     <div class="qual-badge">City &amp; Guilds 7290 · Level 2 · Light Vehicle</div>
     <h1>MOT Testing &amp; Inspection</h1>
-    <p class="header-sub">Self-Directed Study Task &nbsp;·&nbsp; 2 Hours &nbsp;·&nbsp; Individual Activity</p>
-  </div>
-  <div class="timer-box">
-    <div class="timer-label">Session timer</div>
-    <div class="timer-display" id="timerDisplay">2:00:00</div>
-    <div class="timer-controls">
-      <button class="btn primary" id="timerBtn" onclick="toggleTimer()">Start</button>
-      <button class="btn" onclick="resetTimer()">Reset</button>
-    </div>
+    <p class="header-sub">Self-Directed Study Task &nbsp;·&nbsp; Self-paced &nbsp;·&nbsp; Individual Activity</p>
   </div>
 </div>
 
@@ -584,7 +539,7 @@
   </div>
 
   <div class="summary-strip">
-    <div class="sum-item"><div class="sum-val">2 hrs</div><div class="sum-label">Total time</div></div>
+    <div class="sum-item"><div class="sum-val">Self‑paced</div><div class="sum-label">Pacing</div></div>
     <div class="sum-item"><div class="sum-val">5</div><div class="sum-label">Tasks</div></div>
     <div class="sum-item"><div class="sum-val">4</div><div class="sum-label">Defect categories</div></div>
     <div class="sum-item"><div class="sum-val">10</div><div class="sum-label">Quiz questions</div></div>
@@ -601,7 +556,6 @@
       <div class="task-info">
         <div class="task-title">The MOT Test — Background &amp; Legal Basis</div>
         <div class="task-meta">
-          <span class="task-time">20 mins</span>
           <span class="task-type">Research &amp; note-taking</span>
         </div>
       </div>
@@ -653,7 +607,6 @@
       <div class="task-info">
         <div class="task-title">What Gets Tested — MOT Inspection Items</div>
         <div class="task-meta">
-          <span class="task-time">30 mins</span>
           <span class="task-type">Study &amp; diagram</span>
         </div>
       </div>
@@ -678,6 +631,7 @@
         </div>
         <ul class="activity-list">
           <li>Using the DVSA Inspection Manual, pick <strong>three</strong> items from the grid above and write 3–4 sentences on what the tester checks and what would cause a failure in each</li>
+          <li>Create a checklist of all the MOT inspection areas (brakes, lights, steering, suspension, tyres, emissions, visibility, bodywork, seatbelts, etc.) and compare it to what is listed in the DVSA manual</li>
           <li>Draw a simple diagram of a car and label at least 8 MOT check points — use your notes or the manual</li>
           <li>Find out what the minimum legal tread depth is for tyres and note how a tester measures this</li>
           <li>Research the emissions limits for a petrol car — note the difference between pre-2003 and post-2003 vehicles</li>
@@ -706,7 +660,6 @@
       <div class="task-info">
         <div class="task-title">Defect Categories — The 2018 Classification System</div>
         <div class="task-meta">
-          <span class="task-time">25 mins</span>
           <span class="task-type">Deep dive study</span>
         </div>
       </div>
@@ -762,7 +715,6 @@
       <div class="task-info">
         <div class="task-title">Applied Scenarios — Classify the Defect</div>
         <div class="task-meta">
-          <span class="task-time">25 mins</span>
           <span class="task-type">Applied learning</span>
         </div>
       </div>
@@ -810,7 +762,6 @@
       <div class="task-info">
         <div class="task-title">Self-Assessment Quiz &amp; Session Review</div>
         <div class="task-meta">
-          <span class="task-time">20 mins</span>
           <span class="task-type">Self-assessment</span>
         </div>
       </div>
@@ -954,40 +905,9 @@
 </div>
 
 <script>
-let timerInterval = null;
-let seconds = 7200;
-let running = false;
 const completed = {1:false,2:false,3:false,4:false,5:false};
 const openTasks = {};
 let quizAnswers = 0;
-
-function pad(n){return n<10?'0'+n:n;}
-function updateTimerDisplay(){
-  const h=Math.floor(seconds/3600);
-  const m=Math.floor((seconds%3600)/60);
-  const s=seconds%60;
-  const el=document.getElementById('timerDisplay');
-  el.textContent=h+':'+pad(m)+':'+pad(s);
-  el.className='timer-display'+(seconds===0?' done':'');
-}
-function toggleTimer(){
-  const btn=document.getElementById('timerBtn');
-  if(!running){
-    running=true; btn.textContent='Pause'; btn.className='btn';
-    timerInterval=setInterval(()=>{
-      if(seconds>0){seconds--;updateTimerDisplay();}
-      else{clearInterval(timerInterval);running=false;btn.textContent='Done';btn.className='btn primary';}
-    },1000);
-  } else {
-    running=false;clearInterval(timerInterval);btn.textContent='Resume';btn.className='btn primary';
-  }
-}
-function resetTimer(){
-  clearInterval(timerInterval);running=false;seconds=7200;
-  updateTimerDisplay();
-  document.getElementById('timerBtn').textContent='Start';
-  document.getElementById('timerBtn').className='btn primary';
-}
 
 function toggleTask(n){
   const card=document.getElementById('task'+n);
