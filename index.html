@@ -510,6 +510,43 @@
   padding-top: 10px;
 }
 
+.revision-notes {
+  margin-top: 12px;
+}
+.revision-notes-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+#revisionNotes {
+  width: 100%;
+  min-height: 110px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 10px;
+  color: #eee;
+  font-size: 13px;
+  resize: vertical;
+}
+
+.revision-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media print {
+  body * { visibility: hidden; }
+  .revision-box, .revision-box * { visibility: visible; }
+  .revision-box { position: absolute; top: 0; left: 0; width: 100%; }
+  .revision-actions, .complete-btn { display: none !important; }
+}
+
 
   @media (max-width: 640px) {
     .iframe-header { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -1249,6 +1286,15 @@
           </div>
 
           <div class="revision-note">Tip: Use the checklist to guide your practical session and keep a note of any areas you need to revisit.</div>
+
+          <div class="revision-notes">
+            <div class="revision-notes-title">Assessor notes</div>
+            <textarea id="revisionNotes" data-store-key="rev-notes" placeholder="Record anything the assessor asks you to follow up on..."></textarea>
+          </div>
+
+          <div class="revision-actions">
+            <button class="complete-btn" type="button" onclick="printRevision()">Print checklist</button>
+          </div>
         </div>
 
         <button class="complete-btn" onclick="event.stopPropagation(); markDone(5)">Mark task complete ✓</button>
@@ -1391,13 +1437,23 @@ function initRevisionChecklist(){
   inputs.forEach(input=>{
     const key='mot-revision-'+input.getAttribute('data-store-key');
     const stored=localStorage.getItem(key);
-    if(stored!==null){
-      input.checked = stored === '1';
+
+    if (input.type === 'checkbox') {
+      if(stored!==null){ input.checked = stored === '1'; }
+      input.addEventListener('change',()=>{
+        localStorage.setItem(key, input.checked ? '1' : '0');
+      });
+    } else if (input.tagName === 'TEXTAREA' || input.type === 'text') {
+      if(stored!==null){ input.value = stored; }
+      input.addEventListener('input',()=>{
+        localStorage.setItem(key, input.value || '');
+      });
     }
-    input.addEventListener('change',()=>{
-      localStorage.setItem(key, input.checked ? '1' : '0');
-    });
   });
+}
+
+function printRevision(){
+  window.print();
 }
 
 initRevisionChecklist();
