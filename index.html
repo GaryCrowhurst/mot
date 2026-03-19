@@ -450,7 +450,7 @@
     font-size: 12px;
     text-align: center;
   }
-  .iframe-viewer { flex: 1; border: 0; width: 100%; }
+  .iframe-viewer { flex: 1; border: 0; width: 100%; padding: 18px; overflow: auto; }
 
   @media (max-width: 640px) {
     .iframe-header { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -1156,28 +1156,69 @@
     </div>
   </div>
   <div id="iframeNotice" class="iframe-notice" hidden>
-    Some websites (e.g., Gov.uk) block embedding in iframes. If the content does not appear, click “Open in new tab.”
+    Some websites (e.g., GOV.UK) block embedding in iframes. Use "Open in new tab" to access the full page.
   </div>
-  <iframe id="iframeViewer" class="iframe-viewer" src="about:blank"></iframe>
+  <div id="overlayContent" class="iframe-viewer" hidden></div>
+  <iframe id="iframeViewer" class="iframe-viewer" src="about:blank" hidden></iframe>
 </div>
 
 <script>
 const completed = {1:false,2:false,3:false,4:false,5:false};
 const openTasks = {};
 let currentIframeUrl = '';
-let quizAnswers = 0;
+const defaultManualUrl = 'https://www.gov.uk/guidance/mot-inspection-manual-for-private-passenger-and-light-commercial-vehicles';
+
+const areaInfo = {
+  'Brakes': `<p>Check the condition of pads, discs and drums; inspect hoses, pipes and master cylinder for leaks; and confirm braking efficiency and balance. A brake imbalance, worn pads or leaking components will lead to a fail.</p>`,
+  'Lights & signals': `<p>Ensure all headlamps, tail lamps, indicators, stop lights, fog lamps and reflectors work correctly and are the correct colour. Damaged lenses, missing bulbs or incorrect signalling can lead to a fail.</p>`,
+  'Steering': `<p>Inspect for excessive play in the steering wheel, worn joints or mounts, damaged gaiters and secure steering box/column fixings. Loose or worn components can cause a dangerous steering condition.</p>`,
+  'Suspension': `<p>Check shock absorbers/dampers, springs, bushes and anti-roll bars for damage, leaks or excessive wear. Ensure the vehicle sits level and that no components are broken or detached.</p>`,
+  'Tyres & wheels': `<p>Measure tread depth across the central three-quarters of the tyre, check for cuts, bulges, foreign objects and ensure tyre pressures are correct. Also confirm wheel nuts are present and torqued.</p>`,
+  'Emissions': `<p>Look for exhaust leaks, secure mountings and the presence of a catalytic converter (when required). Excess smoke or failed lambda readings can result in a fail.</p>`,
+  'Visibility': `<p>Inspect the windscreen for cracks/damage in the swept area, check wiper/washer operation, mirrors and demist functionality. A clear view for the driver is essential for safety.</p>`,
+  'Body & structure': `<p>Examine the chassis, mounting points, load-bearing structure and bodywork for corrosion or damage that affects safety. Severe corrosion in structural areas is often classed as dangerous.</p>`,
+  'Seatbelts': `<p>Check belt webbing for cuts or fraying, ensure retractors work, and confirm buckles and mounting points are secure. Faulty belts are a common cause of defects.</p>`,
+  'Horn': `<p>Confirm the horn works and is loud enough to be heard at the required distance. It must be operable from the driver's seat.</p>`,
+  'Fuel system': `<p>Inspect the tank, pipes, hoses and joints for leaks, corrosion and secure mounting. Fuel leaks are a serious safety hazard and will fail the test.</p>`,
+  'VIN & registration': `<p>Verify the VIN plate and registration mark match the vehicle documents (V5C) and that the VIN is legible and securely affixed. Incorrect or missing details can prevent a pass.</p>`
+};
 
 function openIframe(url,title){
-  currentIframeUrl = url;
-  document.getElementById('iframeTitle').textContent = title || 'Reference';
-  document.getElementById('iframeViewer').src = url;
+  currentIframeUrl = url || defaultManualUrl;
+  title = title || 'Reference';
+  document.getElementById('iframeTitle').textContent = title;
   document.getElementById('iframeOverlay').hidden = false;
 
   const notice = document.getElementById('iframeNotice');
-  // Some sites (e.g. gov.uk) prevent iframe embedding; show a note so learners know to open in a new tab.
-  if (url.includes('gov.uk')) {
-    notice.hidden = false;
+  const overlayContent = document.getElementById('overlayContent');
+  const iframe = document.getElementById('iframeViewer');
+
+  const info = areaInfo[title];
+  const isGovUk = currentIframeUrl.includes('gov.uk');
+
+  if (info || isGovUk) {
+    iframe.hidden = true;
+    iframe.src = 'about:blank';
+    overlayContent.hidden = false;
+
+    if (info) {
+      overlayContent.innerHTML = info + `
+        <p style="margin-top:12px; font-size:12px; color:var(--muted);">
+          View the full DVSA inspection manual&nbsp;— <a href="${defaultManualUrl}" target="_blank" rel="noreferrer" style="color:var(--blue); text-decoration:underline;">open in new tab</a>.
+        </p>`;
+      notice.hidden = true;
+    } else {
+      overlayContent.innerHTML = `
+        <p style="color:#ddd; line-height:1.65;">This content cannot be displayed inside the app.</p>
+        <p style="margin-top:10px;">
+          <a href="${currentIframeUrl}" target="_blank" rel="noreferrer" style="color:var(--blue); text-decoration:underline;">Open this link in a new tab</a>
+        </p>`;
+      notice.hidden = false;
+    }
   } else {
+    overlayContent.hidden = true;
+    iframe.hidden = false;
+    iframe.src = currentIframeUrl;
     notice.hidden = true;
   }
 }
@@ -1185,6 +1226,9 @@ function openIframe(url,title){
 function closeIframe(){
   document.getElementById('iframeOverlay').hidden = true;
   document.getElementById('iframeViewer').src = 'about:blank';
+  document.getElementById('iframeViewer').hidden = true;
+  document.getElementById('overlayContent').hidden = true;
+  document.getElementById('overlayContent').innerHTML = '';
 }
 
 function openInNewTab(url){
